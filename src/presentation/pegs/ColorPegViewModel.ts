@@ -3,9 +3,9 @@ import { Color } from "../../logic/Color";
 import { PegColors } from "../Theme.styles";
 
 export class ColorPegViewModel {
-    readonly color?: Color
+    readonly color: (Color | null)
 
-    constructor(color?: Color) {
+    constructor(color: (Color | null)) {
         this.color = color
 
         makeObservable(this, {

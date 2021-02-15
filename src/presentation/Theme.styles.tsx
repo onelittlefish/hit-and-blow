@@ -9,13 +9,13 @@ export const Theme = {
     pink: "#ec9af8",
     orange: "#eb7532",
     grey: "#eee",
-    darkGrey: "#555",
+    darkGrey: "#999",
     black: "black",
     white: "white"
 };
 
 export class PegColors {
-    static getBackgroundColor(color?: Color): string {
+    static getBackgroundColor(color: (Color | null)): string {
         switch (color) {
             case Color.Red:
                 return Theme.red
@@ -33,7 +33,7 @@ export class PegColors {
                 return Theme.darkGrey
         }
     }
-    static getBackgroundColorForResult(result?: Result): string {
+    static getBackgroundColorForResult(result: (Result | null)): string {
         switch (result) {
             case Result.Hit:
                 return Theme.orange
@@ -44,7 +44,7 @@ export class PegColors {
         }
     }
 
-    static getForegroundColor(color?: Color): string {
+    static getForegroundColor(color: (Color | null)): string {
         switch (color) {
             case Color.Red:
             case Color.Blue:
@@ -59,7 +59,7 @@ export class PegColors {
         }
     }
 
-    static getForegroundColorForResult(result?: Result): string {
+    static getForegroundColorForResult(result: (Result | null)): string {
         switch (result) {
             case Result.Hit:
                 return Theme.white

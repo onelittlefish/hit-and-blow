@@ -1,6 +1,7 @@
 import { computed, makeObservable } from "mobx";
 import { ArrayHelper } from "../../logic/ArrayHelper";
-import { GameManager, Guess } from "../../logic/GameManager";
+import { GameManager } from "../../logic/GameManager";
+import { Guess } from "../../logic/Guess";
 
 export class GuessesViewModel {
     private gameManager: GameManager
@@ -14,10 +15,14 @@ export class GuessesViewModel {
         })
     }
 
-    get guesses(): [(Guess | null), number][] {
+    get guesses(): [(Guess | null), string][] {
+        const submittedGuesses = this.gameManager.guesses.map((guess): [(Guess | null), string] => {
+            return [guess, guess.id]
+        })
         const numEmpty = Math.max(this.minGuessSlots - this.gameManager.guesses.length, 0)
-        const guesses = this.gameManager.guesses
-            // .concat(ArrayHelper.times(numEmpty, (): Guess | null => { return null }))
-        return ArrayHelper.enumeratedMap(guesses, (guess, index) => { return [guess, index] })
+        const emptyGuesses = ArrayHelper.times(numEmpty, (index): [(Guess | null), string] => {
+            return [null, "empty-" + (submittedGuesses.length + index)]
+        })
+        return submittedGuesses.concat(emptyGuesses)
     }
 }

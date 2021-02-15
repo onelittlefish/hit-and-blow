@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components"
+import { Theme } from "../Theme.styles"
 
 export const GuessWrapper = styled.div`
     display: flex;
@@ -16,8 +17,12 @@ export const PegWrapper = styled.div<{padding: number, borderRadius: number, wid
         width: ${props.width}px;
     `}
 `
+export const SourcePegWrapper = styled(PegWrapper)`
+    position: sticky;
+    top: 0;
+`
 
-export const ColorPeg = styled.div<{backgroundColor: string, color: string}>`
+export const ColorPeg = styled.div<{backgroundColor: string, color: string, isInteractable: boolean}>`
     width: 40px;
     height: 40px;
     margin: 4px;
@@ -28,6 +33,9 @@ export const ColorPeg = styled.div<{backgroundColor: string, color: string}>`
     color: white;
     background-color: ${props => props.backgroundColor};
     color: ${props => props.color};
+    ${props => props.isInteractable && css`
+        cursor: pointer;
+    `}
 `
 export const ResultPeg = styled.div<{backgroundColor: string, color: string}>`
     width: 20px;
@@ -40,3 +48,16 @@ export const ResultPeg = styled.div<{backgroundColor: string, color: string}>`
     background-color: ${props => props.backgroundColor};
     color: ${props => props.color};
 `
+
+export const Button = styled.button`
+    color: ${props => { return props.disabled ? Theme.darkGrey : Theme.green }};
+    font-size: 1em;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid ${props => { return props.disabled ? Theme.darkGrey : Theme.green }};
+    border-radius: 3px;
+    background-color: white;
+    ${props => !props.disabled && css`
+        cursor: pointer;
+    `}
+`;

@@ -3,9 +3,9 @@ import { Result } from "../guesses/Result";
 import { PegColors } from "../Theme.styles";
 
 export class ResultPegViewModel {
-    readonly result?: Result
+    readonly result: (Result | null)
 
-    constructor(color?: Result) {
+    constructor(color: (Result | null)) {
         this.result = color
 
         makeObservable(this, {

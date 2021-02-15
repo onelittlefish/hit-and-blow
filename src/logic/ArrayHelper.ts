@@ -7,19 +7,7 @@ export class ArrayHelper {
      * @param times 
      * @param mapCallback 
      */
-    static times<T>(times: number, mapCallback: () => T): T[] {
-        return Array.from(Array(times)).map(_ => mapCallback())
-    }
-
-    /**
-     * Invokes the callback for each element in the array, passing the element and its index in the array.
-     * Example: ArrayHelper.enumeratedMap(["a", "b", "c"], (element, index) => { return element + index })
-     * will return ["a0", "b1", "c2"].
-     * @param array 
-     * @param mapCallback 
-     */
-    static enumeratedMap<T, U>(array: T[], mapCallback: (element: T, index: number) => U): U[] {
-        const indices = Array.from(Array(array.length).keys())
-        return zip(array, indices).map(zipped => { return mapCallback(zipped[0], zipped[1]) })
+    static times<T>(times: number, mapCallback: (index? :number) => T): T[] {
+        return Array.from(Array(times).keys()).map(index => mapCallback(index))
     }
 }

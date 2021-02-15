@@ -2,6 +2,7 @@ import * as React from "react"
 import { observer } from "mobx-react";
 import { ContainerAwareProps } from "./Container";
 import { SubmitViewModel } from "./SubmitViewModel";
+import { Button } from "./pegs/Pegs.styles";
 
 @observer
 export class SubmitView extends React.Component<ContainerAwareProps, {}> {
@@ -30,7 +31,7 @@ export class SubmitView extends React.Component<ContainerAwareProps, {}> {
                     <button type="submit">Guess</button>
                 </form>
                 <form onSubmit={event => this.onNewGame(event)}>
-                    <button type = "submit">New Game</button>
+                    <Button type = "submit">New Game</Button>
                 </form>
             </div>
         )

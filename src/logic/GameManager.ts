@@ -2,20 +2,7 @@ import { observable, action, computed, autorun, isObservable, isObservableObject
 import { sample } from "lodash"
 import { ArrayHelper } from "./ArrayHelper"
 import { Color, ColorHelper } from "./Color"
-
-export class Guess {
-    readonly id: number
-    readonly guess: Color[]
-    readonly hits: number
-    readonly blows: number
-
-    constructor(id: number, guess: Color[], hits: number, blows: number) {
-        this.id = id
-        this.guess = guess
-        this.hits = hits
-        this.blows = blows
-    }
-}
+import { Guess } from "./Guess"
 
 export class GameManager {
     readonly size = 4
@@ -72,6 +59,6 @@ export class GameManager {
             }
         })
 
-        this.guesses.push(new Guess(this.guesses.length + 1, guess, hits, blows))
+        this.guesses.push(new Guess("submitted-" + (this.guesses.length + 1), guess, hits, blows))
     }
 }

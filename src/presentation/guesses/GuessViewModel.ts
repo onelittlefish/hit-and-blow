@@ -1,37 +1,52 @@
-import { autorun, computed, makeObservable, observable } from "mobx";
-import { GameManager, Guess } from "../../logic/GameManager";
+import { action, computed, makeObservable, observable } from "mobx";
+import { GameManager } from "../../logic/GameManager";
+import { Guess } from "../../logic/Guess";
 import { Color } from "../../logic/Color";
-import { reduce } from "lodash"
 import { ArrayHelper } from "../../logic/ArrayHelper";
 import { Result } from "./Result";
+import { every } from "lodash";
 
 export class GuessViewModel {
-    readonly guess: Guess | null
+    readonly guess: (Guess | null)
+    _editableGuess: (Color | null)[]
+    private guessNumber: number
     private gameManager: GameManager
 
-    constructor(guess: Guess | null, gameManager: GameManager) {
+    constructor(guess: (Guess | null), guessNumber: number, gameManager: GameManager) {
         this.guess = guess
+        this._editableGuess = ArrayHelper.times(gameManager.size, (): Color | null => { return null })
+        this.guessNumber = guessNumber
         this.gameManager = gameManager
 
         makeObservable(this, {
-            guess: observable,
+            _editableGuess: observable,
+            isEditable: computed,
+            isSubmitEnabled: computed,
             pegs: computed,
             results: computed,
-            guessString: computed,
-            hits: computed,
-            blows: computed
+            submitGuess: action,
+            onDrop: action
         })
     }
 
-    get pegs(): [Color | null, number][] {
+    get isEditable(): boolean {
+        return this.guessNumber == this.gameManager.guesses.length
+    }
+
+    get isSubmitEnabled(): boolean {
+        return every(this._editableGuess, (guess) => { return guess != null })
+    }
+
+    get pegs(): [Color | null, string][] {
         let pegs: (Color | null)[]
         if (this.guess == null) {
-            pegs = ArrayHelper.times(this.gameManager.size, (): Color | null => { return null })
+            pegs = this._editableGuess
         } else {
             pegs = this.guess.guess
         }
-        console.log("gpegs " + pegs)
-        return ArrayHelper.enumeratedMap(pegs, (guess, index) => { return [guess, index] })
+        return pegs.map((color, index) => {
+            return [color, index.toString() + "-" + (color || "null")]
+        })
     }
 
     get results(): [Result | null, number][] {
@@ -44,20 +59,18 @@ export class GuessViewModel {
                 .concat(ArrayHelper.times(this.guess.blows, () => { return Result.Blow }))
                 .concat(ArrayHelper.times(numEmpty, (): Result | null => { return null }))
         }
-        return ArrayHelper.enumeratedMap(results, (result, index) => { return [result, index] })
+        return results.map((result, index) => {
+            return [result, index]
+        })
     }
 
-    get guessString(): string {
-        return reduce(this.guess.guess, (str: string, color: Color) => {
-            return str + (str.length > 0 ? ", " : "") + color
-        }, "")
+    submitGuess() {
+        if (this.isEditable && this.isSubmitEnabled) {
+            this.gameManager.submitGuess(this._editableGuess)
+        }
     }
 
-    get hits(): number {
-        return this.guess.hits
-    }
-
-    get blows(): number {
-        return this.guess.blows
+    onDrop(color: Color, id: number) {
+        this._editableGuess[id] = color
     }
 }

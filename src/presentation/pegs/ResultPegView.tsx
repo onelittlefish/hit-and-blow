@@ -5,7 +5,7 @@ import { Result } from "../guesses/Result"
 import { ResultPegViewModel } from "./ResultPegViewModel"
 
 interface Props {
-  result?: Result
+  result: (Result | null)
 }
 
 @observer

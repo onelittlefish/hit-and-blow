@@ -6,4 +6,8 @@ export class SourcePegsViewModel {
     constructor() {
         this.pegs = ColorHelper.allColors()
     }
+
+    onDrop(color: Color) {
+        // Do nothing
+    }
 }

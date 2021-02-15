@@ -2,14 +2,15 @@ import * as React from "react"
 import { observer } from "mobx-react"
 
 import { GuessViewModel } from "./GuessViewModel"
-import { Guess } from "../../logic/GameManager"
+import { Guess } from "../../logic/Guess"
 import { ContainerAwareProps } from "../Container"
 import { ColorPegView } from "../pegs/ColorPegView"
 import { ResultPegView } from "../pegs/ResultPegView"
-import { GuessWrapper, PegWrapper } from "../pegs/Pegs.styles"
+import { Button, GuessWrapper, PegWrapper } from "../pegs/Pegs.styles"
 
 interface Props extends ContainerAwareProps {
-  guess: Guess | null
+    guess: (Guess | null),
+    guessNumber: number
 }
 
 @observer
@@ -18,12 +19,17 @@ export class GuessView extends React.Component<Props, {}> {
 
     constructor(props: Props) {
         super(props)
-        this.model = new GuessViewModel(props.guess, props.container.gameManager)
+        this.model = new GuessViewModel(props.guess, props.guessNumber, props.container.gameManager)
+    }
+
+    private onSubmit(event: React.SyntheticEvent<any, any>) {
+        event.preventDefault()
+        this.model.submitGuess()
     }
 
     render() {
-        const pegs = this.model.pegs.map(peg => {
-            return <ColorPegView color={peg[0]} key={peg[1]}></ColorPegView>
+        const pegs = this.model.pegs.map((peg, index) => {
+            return <ColorPegView color={peg[0]} id={index} key={peg[1]} isDraggable={false} isDroppable={this.model.isEditable} delegate={this.model}></ColorPegView>
         })
 
         const results = this.model.results.map(result => {
@@ -34,6 +40,11 @@ export class GuessView extends React.Component<Props, {}> {
             <GuessWrapper>
                 <PegWrapper padding={10} borderRadius={5}>{pegs}</PegWrapper>
                 <PegWrapper padding={5} borderRadius={2} width={50}>{results}</PegWrapper>
+                {this.model.isEditable && 
+                    <form onSubmit={event => this.onSubmit(event)}>
+                        <Button type="submit" disabled={!this.model.isSubmitEnabled}>Guess</Button>
+                    </form>
+                }
             </GuessWrapper>
         )
     }

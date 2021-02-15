@@ -15,9 +15,8 @@ export class GuessesView extends React.Component<ContainerAwareProps, {}> {
     }
 
     render() {
-        const guessViews = this.model.guesses.map((guessAndKey) => {
-            console.log("guess views: " + guessAndKey[0])
-            return <GuessView guess={guessAndKey[0]} key={guessAndKey[1]} container={this.props.container} />
+        const guessViews = this.model.guesses.map((guessAndKey, index) => {
+            return <GuessView guess={guessAndKey[0]} guessNumber={index} key={guessAndKey[1]} container={this.props.container} />
         })
 
         return (
