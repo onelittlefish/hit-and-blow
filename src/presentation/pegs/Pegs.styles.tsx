@@ -22,7 +22,7 @@ export const SourcePegWrapper = styled(PegWrapper)`
     top: 0;
 `
 
-export const ColorPeg = styled.div<{backgroundColor: string, color: string, isInteractable: boolean}>`
+export const ColorPeg = styled.div<{backgroundColor: string, color: string, isInteractable: boolean, isSelected: boolean}>`
     width: 40px;
     height: 40px;
     margin: 4px;
@@ -35,6 +35,10 @@ export const ColorPeg = styled.div<{backgroundColor: string, color: string, isIn
     color: ${props => props.color};
     ${props => props.isInteractable && css`
         cursor: pointer;
+    `}
+    ${props => props.isSelected && css`
+        border: 2px solid ${Theme.black};
+        box-sizing: border-box;
     `}
 `
 export const ResultPeg = styled.div<{backgroundColor: string, color: string}>`

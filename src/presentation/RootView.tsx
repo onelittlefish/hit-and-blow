@@ -15,9 +15,10 @@ export class RootView extends React.Component<ContainerAwareProps, {}> {
                 <div id="content">
                     <h1>Hit and Blow</h1>
 
+                    <SubmitView container={this.props.container} />
+                    
                     <DndProvider backend={HTML5Backend}>
                         <SourcePegsView container={this.props.container} />
-                        <SubmitView container={this.props.container} />
                         <GuessesView container={this.props.container} />
                     </DndProvider>
                 </div>

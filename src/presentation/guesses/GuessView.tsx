@@ -19,7 +19,7 @@ export class GuessView extends React.Component<Props, {}> {
 
     constructor(props: Props) {
         super(props)
-        this.model = new GuessViewModel(props.guess, props.guessNumber, props.container.gameManager)
+        this.model = new GuessViewModel(props.guess, props.guessNumber, props.container.gameManager, props.container.guessUIManager)
     }
 
     private onSubmit(event: React.SyntheticEvent<any, any>) {
@@ -29,7 +29,8 @@ export class GuessView extends React.Component<Props, {}> {
 
     render() {
         const pegs = this.model.pegs.map((peg, index) => {
-            return <ColorPegView color={peg[0]} id={index} key={peg[1]} isDraggable={false} isDroppable={this.model.isEditable} delegate={this.model}></ColorPegView>
+            return <ColorPegView color={peg[0]} id={index} key={peg[1]} isDraggable={false} isDroppable={this.model.isEditable}
+                delegate={this.model} isSelected={this.model.selectedPosition == index}></ColorPegView>
         })
 
         const results = this.model.results.map(result => {

@@ -8,10 +8,11 @@ export const Theme = {
     yellow: "#f7d038",
     pink: "#ec9af8",
     orange: "#eb7532",
-    grey: "#eee",
+    lightGrey: "#eee",
+    grey: "#bbb",
     darkGrey: "#999",
-    black: "black",
-    white: "white"
+    black: "#000",
+    white: "#fff"
 };
 
 export class PegColors {

@@ -5,42 +5,52 @@ import { Color } from "../../logic/Color";
 import { ArrayHelper } from "../../logic/ArrayHelper";
 import { Result } from "./Result";
 import { every } from "lodash";
+import { GuessUIManager } from "./GuessUIManager";
 
 export class GuessViewModel {
     readonly guess: (Guess | null)
-    _editableGuess: (Color | null)[]
     private guessNumber: number
     private gameManager: GameManager
+    private guessUIManager: GuessUIManager
 
-    constructor(guess: (Guess | null), guessNumber: number, gameManager: GameManager) {
+    constructor(guess: (Guess | null), guessNumber: number, gameManager: GameManager, guessUIManager: GuessUIManager) {
         this.guess = guess
-        this._editableGuess = ArrayHelper.times(gameManager.size, (): Color | null => { return null })
         this.guessNumber = guessNumber
         this.gameManager = gameManager
+        this.guessUIManager = guessUIManager
 
         makeObservable(this, {
-            _editableGuess: observable,
             isEditable: computed,
+            editableGuess: computed,
             isSubmitEnabled: computed,
             pegs: computed,
             results: computed,
             submitGuess: action,
-            onDrop: action
+            onDrop: action,
+            onClick: action
         })
     }
 
     get isEditable(): boolean {
-        return this.guessNumber == this.gameManager.guesses.length
+        return this.guessNumber == this.guessUIManager.currentGuessNumber
+    }
+
+    get editableGuess(): (Color | null)[] {
+        return this.isEditable ? this.guessUIManager.currentGuess : ArrayHelper.times(this.gameManager.size, (): Color | null => { return null })
+    }
+    
+    get selectedPosition(): (number | null) {
+        return this.isEditable ? this.guessUIManager.selectedPosition : null
     }
 
     get isSubmitEnabled(): boolean {
-        return every(this._editableGuess, (guess) => { return guess != null })
+        return this.guessUIManager.canSubmitCurrentGuess
     }
 
     get pegs(): [Color | null, string][] {
         let pegs: (Color | null)[]
         if (this.guess == null) {
-            pegs = this._editableGuess
+            pegs = this.editableGuess
         } else {
             pegs = this.guess.guess
         }
@@ -65,12 +75,20 @@ export class GuessViewModel {
     }
 
     submitGuess() {
-        if (this.isEditable && this.isSubmitEnabled) {
-            this.gameManager.submitGuess(this._editableGuess)
+        if (this.isEditable) {
+            this.guessUIManager.submitGuess()
         }
     }
 
     onDrop(color: Color, id: number) {
-        this._editableGuess[id] = color
+        if (this.isEditable) {
+            this.guessUIManager.selectColorForPosition(color, id)
+        }
+    }
+
+    onClick(color: Color, id: number) {
+        if (this.isEditable) {
+            this.guessUIManager.selectPosition(id)
+        }
     }
 }

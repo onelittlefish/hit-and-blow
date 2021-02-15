@@ -13,11 +13,6 @@ export class SubmitView extends React.Component<ContainerAwareProps, {}> {
         this.model = new SubmitViewModel(props.container.gameManager)
     }
 
-    private onSubmit(event: React.SyntheticEvent<any, any>) {
-        event.preventDefault()
-        this.model.submitGuess()
-    }
-
     private onNewGame(event: React.SyntheticEvent<any, any>) {
         event.preventDefault()
         this.model.newGame()
@@ -26,10 +21,6 @@ export class SubmitView extends React.Component<ContainerAwareProps, {}> {
     render() {
         return (
             <div>
-                <form onSubmit={event => this.onSubmit(event)}>
-                    <input type="text" value={this.model.guess} name="guess" autoComplete="off" onChange={event => this.model.setGuess(event.target.value)} />
-                    <button type="submit">Guess</button>
-                </form>
                 <form onSubmit={event => this.onNewGame(event)}>
                     <Button type = "submit">New Game</Button>
                 </form>

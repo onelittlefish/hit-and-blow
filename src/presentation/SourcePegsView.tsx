@@ -12,12 +12,13 @@ export class SourcePegsView extends React.Component<ContainerAwareProps, {}> {
 
     constructor(props: ContainerAwareProps) {
         super(props)
-        this.model = new SourcePegsViewModel()
+        this.model = new SourcePegsViewModel(props.container.guessUIManager)
     }
 
     render() {
         const pegs = this.model.pegs.map((color, index) => {
-            return <ColorPegView color={color} id={index} key={color} isDraggable={true} isDroppable={false} delegate={this.model}></ColorPegView>
+            return <ColorPegView color={color} id={index} key={color} isDraggable={true} isDroppable={false}
+                delegate={this.model} isSelected={false}></ColorPegView>
         })
 
         return (
