@@ -19,7 +19,8 @@ export class GuessesViewModel {
         const submittedGuesses = this.gameManager.guesses.map((guess): [(Guess | null), string] => {
             return [guess, guess.id]
         })
-        const numEmpty = Math.max(this.minGuessSlots - this.gameManager.guesses.length, 0)
+        const totalSlots = Math.max(this.minGuessSlots, this.gameManager.guesses.length + 1)
+        const numEmpty = Math.max(totalSlots - this.gameManager.guesses.length, 0)
         const emptyGuesses = ArrayHelper.times(numEmpty, (index): [(Guess | null), string] => {
             return [null, "empty-" + (submittedGuesses.length + index)]
         })

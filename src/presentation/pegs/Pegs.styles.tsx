@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components"
-import { Theme } from "../Theme.styles"
+import { Theme } from "../common/Theme.styles"
 
 export const GuessWrapper = styled.div`
     display: flex;
@@ -20,6 +20,11 @@ export const PegWrapper = styled.div<{padding: number, borderRadius: number, wid
 export const SourcePegWrapper = styled(PegWrapper)`
     position: sticky;
     top: 0;
+    z-index: 999;
+`
+
+export const ColorPegWrapper = styled.div`
+    position: relative;
 `
 
 export const ColorPeg = styled.div<{backgroundColor: string, color: string, isInteractable: boolean, isSelected: boolean}>`
@@ -30,7 +35,6 @@ export const ColorPeg = styled.div<{backgroundColor: string, color: string, isIn
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: white;
     background-color: ${props => props.backgroundColor};
     color: ${props => props.color};
     ${props => props.isInteractable && css`
@@ -41,6 +45,22 @@ export const ColorPeg = styled.div<{backgroundColor: string, color: string, isIn
         box-sizing: border-box;
     `}
 `
+
+export const ColorPegDeleteButton = styled.button`
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: ${Theme.white};
+    background-color: ${Theme.black};
+    cursor: pointer;
+    font-size: 10px;
+    border: 0;
+    padding: 0;
+`
+
 export const ResultPeg = styled.div<{backgroundColor: string, color: string}>`
     width: 20px;
     height: 20px;
@@ -52,16 +72,3 @@ export const ResultPeg = styled.div<{backgroundColor: string, color: string}>`
     background-color: ${props => props.backgroundColor};
     color: ${props => props.color};
 `
-
-export const Button = styled.button`
-    color: ${props => { return props.disabled ? Theme.darkGrey : Theme.green }};
-    font-size: 1em;
-    margin: 1em;
-    padding: 0.25em 1em;
-    border: 2px solid ${props => { return props.disabled ? Theme.darkGrey : Theme.green }};
-    border-radius: 3px;
-    background-color: white;
-    ${props => !props.disabled && css`
-        cursor: pointer;
-    `}
-`;

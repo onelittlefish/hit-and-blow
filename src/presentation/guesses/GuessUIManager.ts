@@ -21,6 +21,7 @@ export class GuessUIManager {
             selectPosition: action,
             selectColor: action,
             selectColorForPosition: action,
+            removeColorForPosition: action,
             _resetState: action,
             _selectNextOpenPosition: action
         })
@@ -57,6 +58,10 @@ export class GuessUIManager {
     selectColorForPosition(color: Color, position: number) {
         this.currentGuess[position] = color
         this._selectNextOpenPosition()
+    }
+
+    removeColorForPosition(position: number) {
+        this.currentGuess[position] = null
     }
 
     submitGuess() {

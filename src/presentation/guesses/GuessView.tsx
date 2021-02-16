@@ -6,7 +6,9 @@ import { Guess } from "../../logic/Guess"
 import { ContainerAwareProps } from "../Container"
 import { ColorPegView } from "../pegs/ColorPegView"
 import { ResultPegView } from "../pegs/ResultPegView"
-import { Button, GuessWrapper, PegWrapper } from "../pegs/Pegs.styles"
+import { GuessWrapper, PegWrapper } from "../pegs/Pegs.styles"
+import { Button } from "../common/Common.styles"
+import { GuessForm, SuccessView } from "./GuessView.styles"
 
 interface Props extends ContainerAwareProps {
     guess: (Guess | null),
@@ -42,9 +44,14 @@ export class GuessView extends React.Component<Props, {}> {
                 <PegWrapper padding={10} borderRadius={5}>{pegs}</PegWrapper>
                 <PegWrapper padding={5} borderRadius={2} width={50}>{results}</PegWrapper>
                 {this.model.isEditable && 
-                    <form onSubmit={event => this.onSubmit(event)}>
+                    <GuessForm onSubmit={event => this.onSubmit(event)}>
                         <Button type="submit" disabled={!this.model.isSubmitEnabled}>Guess</Button>
-                    </form>
+                    </GuessForm>
+                }
+                {this.model.isTarget && 
+                    <SuccessView>
+                        <span>🎉</span>
+                    </SuccessView>
                 }
             </GuessWrapper>
         )

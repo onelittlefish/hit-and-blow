@@ -1,4 +1,4 @@
-import { observable, action, computed, autorun, isObservable, isObservableObject, makeObservable, trace } from "mobx"
+import { observable, action, makeObservable } from "mobx"
 import { sample } from "lodash"
 import { ArrayHelper } from "./ArrayHelper"
 import { Color, ColorHelper } from "./Color"
@@ -8,11 +8,13 @@ export class GameManager {
     readonly size = 4
 
     target: Color[] = []
+    targetFound = false
     guesses: Guess[] = []
 
     constructor() {
         makeObservable(this, {
             target: observable,
+            targetFound: observable,
             guesses: observable,
             newGame: action,
             submitGuess: action
@@ -24,6 +26,7 @@ export class GameManager {
     newGame() {
         const allColors = ColorHelper.allColors()
         this.target = ArrayHelper.times(this.size, () => sample(allColors))
+        this.targetFound = false
         this.guesses = []
     }
 
@@ -60,5 +63,9 @@ export class GameManager {
         })
 
         this.guesses.push(new Guess("submitted-" + (this.guesses.length + 1), guess, hits, blows))
+
+        if (hits == this.size) {
+            this.targetFound = true
+        }
     }
 }

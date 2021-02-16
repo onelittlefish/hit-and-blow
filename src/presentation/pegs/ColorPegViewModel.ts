@@ -1,6 +1,6 @@
 import { computed, makeObservable, observable } from "mobx";
 import { Color } from "../../logic/Color";
-import { PegColors } from "../Theme.styles";
+import { PegColors } from "../common/Theme.styles";
 
 export class ColorPegViewModel {
     readonly color: (Color | null)

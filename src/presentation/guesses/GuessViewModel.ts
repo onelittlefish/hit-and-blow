@@ -4,7 +4,7 @@ import { Guess } from "../../logic/Guess";
 import { Color } from "../../logic/Color";
 import { ArrayHelper } from "../../logic/ArrayHelper";
 import { Result } from "./Result";
-import { every } from "lodash";
+import { isEqual } from "lodash";
 import { GuessUIManager } from "./GuessUIManager";
 
 export class GuessViewModel {
@@ -25,6 +25,7 @@ export class GuessViewModel {
             isSubmitEnabled: computed,
             pegs: computed,
             results: computed,
+            isTarget: computed,
             submitGuess: action,
             onDrop: action,
             onClick: action
@@ -32,7 +33,7 @@ export class GuessViewModel {
     }
 
     get isEditable(): boolean {
-        return this.guessNumber == this.guessUIManager.currentGuessNumber
+        return !this.gameManager.targetFound && this.guessNumber == this.guessUIManager.currentGuessNumber
     }
 
     get editableGuess(): (Color | null)[] {
@@ -74,6 +75,10 @@ export class GuessViewModel {
         })
     }
 
+    get isTarget(): boolean {
+        return this.guess != null && isEqual(this.guess.guess, this.gameManager.target)
+    }
+
     submitGuess() {
         if (this.isEditable) {
             this.guessUIManager.submitGuess()
@@ -89,6 +94,12 @@ export class GuessViewModel {
     onClick(color: Color, id: number) {
         if (this.isEditable) {
             this.guessUIManager.selectPosition(id)
+        }
+    }
+
+    onDelete(id: number) {
+        if (this.isEditable) {
+            this.guessUIManager.removeColorForPosition(id)
         }
     }
 }

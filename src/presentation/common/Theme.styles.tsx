@@ -1,5 +1,5 @@
-import { Color } from "../logic/Color";
-import { Result } from "./guesses/Result";
+import { Color } from "../../logic/Color";
+import { Result } from "../guesses/Result";
 
 export const Theme = {
     red: "#e6261f",

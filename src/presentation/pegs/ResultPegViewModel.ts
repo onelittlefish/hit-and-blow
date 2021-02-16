@@ -1,6 +1,6 @@
 import { computed, makeObservable, observable } from "mobx";
 import { Result } from "../guesses/Result";
-import { PegColors } from "../Theme.styles";
+import { PegColors } from "../common/Theme.styles";
 
 export class ResultPegViewModel {
     readonly result: (Result | null)

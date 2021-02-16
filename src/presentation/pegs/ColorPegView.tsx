@@ -2,14 +2,15 @@ import * as React from "react"
 import { observer } from "mobx-react"
 import { ColorPegViewModel } from "./ColorPegViewModel"
 import { Color } from "../../logic/Color"
-import { ColorPeg } from "./Pegs.styles"
+import { ColorPeg, ColorPegDeleteButton, ColorPegWrapper } from "./Pegs.styles"
 import { DragElementWrapper, DragSource, DragSourceOptions, DragSourceSpec, DropTarget, DropTargetSpec } from "react-dnd"
 import { DragTypes } from "../DragTypes"
-import { PegColors, Theme } from "../Theme.styles"
+import { PegColors, Theme } from "../common/Theme.styles"
 
 export interface ColorPegViewDelegate {
     onDrop(color: Color, id: number): void
     onClick(color: Color, id: number): void
+    onDelete(id: number): void
 }
 
 interface DragProps {
@@ -47,6 +48,11 @@ class ColorPegView extends React.Component<Props, {}> {
         this.props.delegate.onClick(this.props.color, this.props.id)
     }
 
+    private onDelete(event: React.SyntheticEvent<any, any>) {
+        event.preventDefault()
+        this.props.delegate.onDelete(this.props.id)
+    }
+
     render() {
         const isActive = this.props.isDroppable && this.props.isOver
         let backgroundColor: string
@@ -60,11 +66,16 @@ class ColorPegView extends React.Component<Props, {}> {
         // https://stackoverflow.com/questions/46257882/react-dnd-make-a-component-draggable-and-droppable-at-the-same-time
         return this.props.dragRef(this.props.dropRef(
             <div>
-                <ColorPeg onClick={event => this.onClick(event)} ref={this.props.dragRef}
-                    backgroundColor={backgroundColor} color={this.model.foregroundColor}
-                    isInteractable={this.props.isDraggable || this.props.isDroppable} isSelected={this.props.isSelected}>
-                    {this.model.label}
-                </ColorPeg>
+                <ColorPegWrapper>
+                    <ColorPeg onClick={event => this.onClick(event)} ref={this.props.dragRef}
+                        backgroundColor={backgroundColor} color={this.model.foregroundColor}
+                        isInteractable={this.props.isDraggable || this.props.isDroppable} isSelected={this.props.isSelected}>
+                        {this.model.label}
+                    </ColorPeg>
+                    {this.props.isSelected && this.props.color && 
+                        <ColorPegDeleteButton onClick={event => this.onDelete(event)}>X</ColorPegDeleteButton>
+                    }
+                </ColorPegWrapper>
             </div>
         ))
     }

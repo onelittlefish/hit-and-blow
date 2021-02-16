@@ -17,4 +17,8 @@ export class SourcePegsViewModel {
     onClick(color: Color) {
         this.guessUIManager.selectColor(color)
     }
+
+    onDelete(id: number) {
+        // Do nothing
+    }
 }
