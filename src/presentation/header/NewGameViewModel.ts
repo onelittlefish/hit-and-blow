@@ -1,6 +1,6 @@
-import { GameManager } from "../logic/GameManager";
+import { GameManager } from "../../logic/GameManager";
 
-export class SubmitViewModel {
+export class NewGameViewModel {
     private gameManager: GameManager
 
     constructor(gameManager: GameManager) {

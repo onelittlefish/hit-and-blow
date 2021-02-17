@@ -20,7 +20,7 @@ export class GuessesView extends React.Component<ContainerAwareProps, {}> {
         })
 
         return (
-            <div id="guess-list">
+            <div>
                 {guessViews}
             </div>
         )

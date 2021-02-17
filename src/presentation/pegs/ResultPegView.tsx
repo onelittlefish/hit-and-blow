@@ -1,8 +1,8 @@
 import * as React from "react"
 import { observer } from "mobx-react"
-import { ResultPeg } from "./Pegs.styles"
+import { ResultPeg } from "./ResultPegView.styles"
 import { Result } from "../guesses/Result"
-import { ResultPegViewModel } from "./ResultPegViewModel"
+import { ResultPegViewHelper } from "./ResultPegViewHelper"
 
 interface Props {
   result: (Result | null)
@@ -10,17 +10,18 @@ interface Props {
 
 @observer
 export class ResultPegView extends React.Component<Props, {}> {
-    private model: ResultPegViewModel
-
     constructor(props: Props) {
         super(props)
-        this.model = new ResultPegViewModel(props.result)
     }
 
     render() {
+        const backgroundColor = ResultPegViewHelper.getBackgroundColor(this.props.result)
+        const foregroundColor = ResultPegViewHelper.getForegroundColor(this.props.result)
+        const label = ResultPegViewHelper.getLabel(this.props.result)
+
         return (
-            <ResultPeg backgroundColor={this.model.backgroundColor} color={this.model.foregroundColor}>
-                {this.model.label}
+            <ResultPeg backgroundColor={backgroundColor} color={foregroundColor}>
+                {label}
             </ResultPeg>
         )
     }

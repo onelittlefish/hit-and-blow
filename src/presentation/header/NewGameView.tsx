@@ -1,17 +1,17 @@
 import * as React from "react"
 import { observer } from "mobx-react";
-import { ContainerAwareProps } from "./Container";
-import { SubmitViewModel } from "./SubmitViewModel";
-import { Button } from "./common/Common.styles";
-import { SubmitViewWrapper } from "./SubmitView.styles";
+import { ContainerAwareProps } from "../Container";
+import { NewGameViewModel } from "./NewGameViewModel";
+import { Button } from "../common/Common.styles";
+import { NewGameDiv } from "./NewGameView.styles";
 
 @observer
-export class SubmitView extends React.Component<ContainerAwareProps, {}> {
-    private model: SubmitViewModel
+export class NewGameView extends React.Component<ContainerAwareProps, {}> {
+    private model: NewGameViewModel
 
     constructor(props: ContainerAwareProps) {
         super(props)
-        this.model = new SubmitViewModel(props.container.gameManager)
+        this.model = new NewGameViewModel(props.container.gameManager)
     }
 
     private onNewGame(event: React.SyntheticEvent<any, any>) {
@@ -21,11 +21,11 @@ export class SubmitView extends React.Component<ContainerAwareProps, {}> {
 
     render() {
         return (
-            <SubmitViewWrapper>
+            <NewGameDiv>
                 <form onSubmit={event => this.onNewGame(event)}>
                     <Button type = "submit">New Game</Button>
                 </form>
-            </SubmitViewWrapper>
+            </NewGameDiv>
         )
     }
 }

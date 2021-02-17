@@ -1,11 +1,10 @@
 import * as React from "react"
 import { observer } from "mobx-react"
-import { ColorPegViewModel } from "./ColorPegViewModel"
+import { ColorPegViewHelper } from "./ColorPegViewHelper"
 import { Color } from "../../logic/Color"
-import { ColorPeg, ColorPegDeleteButton, ColorPegWrapper } from "./Pegs.styles"
+import { ColorPeg, ColorPegDeleteButton, ColorPegDiv } from "./ColorPegView.styles"
 import { DragElementWrapper, DragSource, DragSourceOptions, DragSourceSpec, DropTarget, DropTargetSpec } from "react-dnd"
 import { DragTypes } from "../DragTypes"
-import { PegColors, Theme } from "../common/Theme.styles"
 
 export interface ColorPegViewDelegate {
     onDrop(color: Color, id: number): void
@@ -14,16 +13,17 @@ export interface ColorPegViewDelegate {
 }
 
 interface DragProps {
-    dragRef: DragElementWrapper<DragSourceOptions>
     isDraggable: boolean
+    // Set by drag source
+    dragRef: DragElementWrapper<DragSourceOptions>
     isDragging: boolean
 }
 
 interface DropProps {
-    id: number
-    dropRef: DragElementWrapper<any>
+    index: number
     isDroppable: boolean
-    isOver: boolean
+    // Set by drop target
+    dropRef: DragElementWrapper<any>
     draggedColor: Color | null
 }
   
@@ -35,47 +35,39 @@ interface Props extends DragProps, DropProps {
 
 @observer
 class ColorPegView extends React.Component<Props, {}> {
-    private model: ColorPegViewModel
 
     constructor(props: Props) {
         super(props)
-        // TODO: Determine division of info between props and view model
-        this.model = new ColorPegViewModel(props.color)
     }
 
     private onClick(event: React.SyntheticEvent<any, any>) {
         event.preventDefault()
-        this.props.delegate.onClick(this.props.color, this.props.id)
+        this.props.delegate.onClick(this.props.color, this.props.index)
     }
 
     private onDelete(event: React.SyntheticEvent<any, any>) {
         event.preventDefault()
-        this.props.delegate.onDelete(this.props.id)
+        this.props.delegate.onDelete(this.props.index)
     }
 
     render() {
-        const isActive = this.props.isDroppable && this.props.isOver
-        let backgroundColor: string
-        if (isActive && this.props.draggedColor != null) {
-            backgroundColor = PegColors.getBackgroundColor(this.props.draggedColor)
-        } else if (this.props.isSelected && this.props.color == null) {
-            backgroundColor = Theme.white
-        } else {
-            backgroundColor = this.model.backgroundColor
-        }
+        const backgroundColor = ColorPegViewHelper.getBackgroundColor(this.props.color, this.props.isSelected, this.props.draggedColor)
+        const foregroundColor = ColorPegViewHelper.getForegroundColor(this.props.color)
+        const label = ColorPegViewHelper.getLabel(this.props.color)
+        
         // https://stackoverflow.com/questions/46257882/react-dnd-make-a-component-draggable-and-droppable-at-the-same-time
         return this.props.dragRef(this.props.dropRef(
             <div>
-                <ColorPegWrapper>
+                <ColorPegDiv>
                     <ColorPeg onClick={event => this.onClick(event)} ref={this.props.dragRef}
-                        backgroundColor={backgroundColor} color={this.model.foregroundColor}
+                        backgroundColor={backgroundColor} color={foregroundColor}
                         isInteractable={this.props.isDraggable || this.props.isDroppable} isSelected={this.props.isSelected}>
-                        {this.model.label}
+                        {label}
                     </ColorPeg>
                     {this.props.isSelected && this.props.color && 
                         <ColorPegDeleteButton onClick={event => this.onDelete(event)}>X</ColorPegDeleteButton>
                     }
-                </ColorPegWrapper>
+                </ColorPegDiv>
             </div>
         ))
     }
@@ -99,24 +91,17 @@ const dropSpec: DropTargetSpec<Props> = {
     drop: (props, monitor, component) => {
         if (monitor.getItemType() == DragTypes.PEG) {
             const dropped = monitor.getItem().color as Color
-            props.delegate.onDrop(dropped, props.id)
+            props.delegate.onDrop(dropped, props.index)
         }
     },
-
-    // canDrop: (props, monitor) => {
-    //     if (monitor.getItemType() == DragTypes.PEG) {
-    //         const hoveredCard = monitor.getItem().color as Color
-    //         return props.delegate.canDropCard(hoveredCard)
-    //     }
-    //     return false
-    // }
+    canDrop: (props, monitor) => {
+        return monitor.getItemType() == DragTypes.PEG && props.isDroppable
+    }
 }
 
 let DroppingColorPegView = DropTarget(DragTypes.PEG, dropSpec, (connect, monitor) => ({
     dropRef: connect.dropTarget(),
-    canDrop: !!monitor.canDrop(),
-    isOver: !!monitor.isOver(),
-    draggedColor: monitor.getItem()?.color as Color
+    draggedColor: (monitor.canDrop() && monitor.isOver()) ? monitor.getItem()?.color as Color : null
 }))(DraggingColorPegView)
 
 export { DroppingColorPegView as ColorPegView }

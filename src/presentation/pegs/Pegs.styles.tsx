@@ -1,13 +1,8 @@
 import styled, { css } from "styled-components"
 import { Theme } from "../common/Theme.styles"
 
-export const GuessWrapper = styled.div`
-    display: flex;
-    align-items: center;
-`
-
-export const PegWrapper = styled.div<{padding: number, borderRadius: number, width?: number}>`
-    background-color: #eee;
+export const PegsDiv = styled.div<{padding: number, borderRadius: number, width?: number}>`
+    background-color: ${Theme.lightGrey};
     display: inline-flex;
     flex-wrap: wrap;
     margin: 5px;
@@ -17,55 +12,8 @@ export const PegWrapper = styled.div<{padding: number, borderRadius: number, wid
         width: ${props.width}px;
     `}
 `
-export const SourcePegWrapper = styled(PegWrapper)`
-    position: sticky;
-    top: 0;
-    z-index: 999;
-`
 
-export const ColorPegWrapper = styled.div`
-    position: relative;
-`
-
-export const ColorPeg = styled.div<{backgroundColor: string, color: string, isInteractable: boolean, isSelected: boolean}>`
-    width: 40px;
-    height: 40px;
-    margin: 4px;
-    border-radius: 20px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: ${props => props.backgroundColor};
-    color: ${props => props.color};
-    ${props => props.isInteractable && css`
-        cursor: pointer;
-    `}
-    ${props => props.isSelected && css`
-        border: 2px solid ${Theme.black};
-        box-sizing: border-box;
-    `}
-`
-
-export const ColorPegDeleteButton = styled.button`
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: ${Theme.white};
-    background-color: ${Theme.black};
-    cursor: pointer;
-    font-size: 10px;
-    border: 0;
-    padding: 0;
-`
-
-export const ResultPeg = styled.div<{backgroundColor: string, color: string}>`
-    width: 20px;
-    height: 20px;
-    margin: 2px;
-    border-radius: 10px;
+export const Peg = styled.div<{backgroundColor: string, color: string}>`
     display: inline-flex;
     align-items: center;
     justify-content: center;

@@ -1,9 +1,9 @@
 import * as React from "react"
 import { observer } from "mobx-react"
 
-import { ContainerAwareProps } from "./Container"
-import { ColorPegView } from "./pegs/ColorPegView"
-import { SourcePegWrapper } from "./pegs/Pegs.styles"
+import { ContainerAwareProps } from "../Container"
+import { ColorPegView } from "./ColorPegView"
+import { SourcePegsDiv } from "./SourcePegsView.styles"
 import { SourcePegsViewModel } from "./SourcePegsViewModel"
 
 @observer
@@ -17,12 +17,13 @@ export class SourcePegsView extends React.Component<ContainerAwareProps, {}> {
 
     render() {
         const pegs = this.model.pegs.map((color, index) => {
-            return <ColorPegView color={color} id={index} key={color} isDraggable={true} isDroppable={false}
-                delegate={this.model} isSelected={false}></ColorPegView>
+            return <ColorPegView color={color} index={index} key={color}
+                isDraggable={true} isDroppable={false}
+                delegate={this.model} isSelected={false}/>
         })
 
         return (
-            <SourcePegWrapper padding={10} borderRadius={5}>{pegs}</SourcePegWrapper>
+            <SourcePegsDiv padding={10} borderRadius={5}>{pegs}</SourcePegsDiv>
         )
     }
 }

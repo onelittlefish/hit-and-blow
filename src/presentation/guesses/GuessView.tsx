@@ -6,9 +6,9 @@ import { Guess } from "../../logic/Guess"
 import { ContainerAwareProps } from "../Container"
 import { ColorPegView } from "../pegs/ColorPegView"
 import { ResultPegView } from "../pegs/ResultPegView"
-import { GuessWrapper, PegWrapper } from "../pegs/Pegs.styles"
+import { PegsDiv } from "../pegs/Pegs.styles"
 import { Button } from "../common/Common.styles"
-import { GuessForm, SuccessView } from "./GuessView.styles"
+import { GuessDiv, GuessForm, SuccessView } from "./GuessView.styles"
 
 interface Props extends ContainerAwareProps {
     guess: (Guess | null),
@@ -31,7 +31,8 @@ export class GuessView extends React.Component<Props, {}> {
 
     render() {
         const pegs = this.model.pegs.map((peg, index) => {
-            return <ColorPegView color={peg[0]} id={index} key={peg[1]} isDraggable={false} isDroppable={this.model.isEditable}
+            return <ColorPegView color={peg[0]} index={index} key={peg[1]}
+                isDraggable={false} isDroppable={this.model.isEditable}
                 delegate={this.model} isSelected={this.model.selectedPosition == index}></ColorPegView>
         })
 
@@ -40,9 +41,9 @@ export class GuessView extends React.Component<Props, {}> {
         })
 
         return (
-            <GuessWrapper>
-                <PegWrapper padding={10} borderRadius={5}>{pegs}</PegWrapper>
-                <PegWrapper padding={5} borderRadius={2} width={50}>{results}</PegWrapper>
+            <GuessDiv>
+                <PegsDiv padding={10} borderRadius={5}>{pegs}</PegsDiv>
+                <PegsDiv padding={5} borderRadius={2} width={50}>{results}</PegsDiv>
                 {this.model.isEditable && 
                     <GuessForm onSubmit={event => this.onSubmit(event)}>
                         <Button type="submit" disabled={!this.model.isSubmitEnabled}>Guess</Button>
@@ -50,10 +51,10 @@ export class GuessView extends React.Component<Props, {}> {
                 }
                 {this.model.isTarget && 
                     <SuccessView>
-                        <span>🎉</span>
+                        <span>✓</span>
                     </SuccessView>
                 }
-            </GuessWrapper>
+            </GuessDiv>
         )
     }
 }

@@ -1,5 +1,5 @@
-import { Color, ColorHelper } from "../logic/Color";
-import { GuessUIManager } from "./guesses/GuessUIManager";
+import { Color, ColorHelper } from "../../logic/Color";
+import { GuessUIManager } from "../guesses/GuessUIManager";
 
 export class SourcePegsViewModel {
     readonly pegs: Color[]

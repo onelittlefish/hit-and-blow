@@ -13,7 +13,7 @@ export const Theme = {
     darkGrey: "#999",
     black: "#000",
     white: "#fff"
-};
+}
 
 export class PegColors {
     static getBackgroundColor(color: (Color | null)): string {
