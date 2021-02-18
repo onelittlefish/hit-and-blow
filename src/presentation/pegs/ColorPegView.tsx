@@ -23,7 +23,7 @@ interface DropProps {
     index: number
     isDroppable: boolean
     // Set by drop target
-    dropRef: DragElementWrapper<any>
+    dropRef: DragElementWrapper<DragSourceOptions>
     draggedColor: Color | null
 }
   
@@ -34,18 +34,18 @@ interface Props extends DragProps, DropProps {
 }
 
 @observer
-class ColorPegView extends React.Component<Props, {}> {
+class ColorPegView extends React.Component<Props> {
 
     constructor(props: Props) {
         super(props)
     }
 
-    private onClick(event: React.SyntheticEvent<any, any>) {
+    private onClick(event: React.SyntheticEvent) {
         event.preventDefault()
         this.props.delegate.onClick(this.props.color, this.props.index)
     }
 
-    private onDelete(event: React.SyntheticEvent<any, any>) {
+    private onDelete(event: React.SyntheticEvent) {
         event.preventDefault()
         this.props.delegate.onDelete(this.props.index)
     }
@@ -82,13 +82,13 @@ const dragSpec: DragSourceSpec<Props, unknown> = {
     }
 }
   
-let DraggingColorPegView = DragSource(DragTypes.PEG, dragSpec, (connect, monitor) => ({
+const DraggingColorPegView = DragSource(DragTypes.PEG, dragSpec, (connect, monitor) => ({
     dragRef: connect.dragSource(),
     isDragging: !!monitor.isDragging(),
 }))(ColorPegView)
 
 const dropSpec: DropTargetSpec<Props> = {
-    drop: (props, monitor, component) => {
+    drop: (props, monitor, _component) => {
         if (monitor.getItemType() == DragTypes.PEG) {
             const dropped = monitor.getItem().color as Color
             props.delegate.onDrop(dropped, props.index)
@@ -99,7 +99,7 @@ const dropSpec: DropTargetSpec<Props> = {
     }
 }
 
-let DroppingColorPegView = DropTarget(DragTypes.PEG, dropSpec, (connect, monitor) => ({
+const DroppingColorPegView = DropTarget(DragTypes.PEG, dropSpec, (connect, monitor) => ({
     dropRef: connect.dropTarget(),
     draggedColor: (monitor.canDrop() && monitor.isOver()) ? monitor.getItem()?.color as Color : null
 }))(DraggingColorPegView)

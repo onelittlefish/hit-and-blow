@@ -1,3 +1,3 @@
 export const DragTypes = {
-    PEG: 'peg'
+    PEG: "peg"
 }

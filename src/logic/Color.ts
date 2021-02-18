@@ -9,6 +9,6 @@ export enum Color {
 
 export class ColorHelper {
     static allColors(): Color[] {
-        return Object.keys(Color).map((color: keyof typeof Color) => Color[color]);
+        return Object.keys(Color).map((color: keyof typeof Color) => Color[color])
     }
 }

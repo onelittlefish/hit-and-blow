@@ -1,5 +1,5 @@
-import { Color } from "../../logic/Color";
-import { PegColors, Theme } from "../common/Theme.styles";
+import { Color } from "../../logic/Color"
+import { PegColors, Theme } from "../common/Theme.styles"
 
 export class ColorPegViewHelper {
     static getBackgroundColor(color: Color, isSelected: boolean, draggedColor: Color | null): string {
@@ -12,7 +12,7 @@ export class ColorPegViewHelper {
         }
     }
 
-    static getForegroundColor(color: Color) {
+    static getForegroundColor(color: Color): string {
         return PegColors.getForegroundColor(color)
     }
 

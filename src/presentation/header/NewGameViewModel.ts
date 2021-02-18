@@ -1,4 +1,4 @@
-import { GameManager } from "../../logic/GameManager";
+import { GameManager } from "../../logic/GameManager"
 
 export class NewGameViewModel {
     private gameManager: GameManager
@@ -7,7 +7,7 @@ export class NewGameViewModel {
         this.gameManager = gameManager
     }
     
-    newGame() {
+    newGame(): void {
         this.gameManager.newGame()
     }
 }

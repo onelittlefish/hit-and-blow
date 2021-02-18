@@ -16,7 +16,7 @@ interface Props extends ContainerAwareProps {
 }
 
 @observer
-export class GuessView extends React.Component<Props, {}> {
+export class GuessView extends React.Component<Props> {
     private model: GuessViewModel
 
     constructor(props: Props) {
@@ -24,12 +24,12 @@ export class GuessView extends React.Component<Props, {}> {
         this.model = new GuessViewModel(props.guess, props.guessNumber, props.container.gameManager, props.container.guessUIManager)
     }
 
-    private onSubmit(event: React.SyntheticEvent<any, any>) {
+    private onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
         this.model.submitGuess()
     }
 
-    render() {
+    render(): JSX.Element {
         const pegs = this.model.pegs.map((peg, index) => {
             return <ColorPegView color={peg[0]} index={index} key={peg[1]}
                 isDraggable={false} isDroppable={this.model.isEditable}

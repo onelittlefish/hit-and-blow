@@ -1,18 +1,18 @@
-var path = require('path');
-var CopyPlugin = require('copy-webpack-plugin');
+const path = require("path")
+const CopyPlugin = require("copy-webpack-plugin")
 
 module.exports = {
-    mode: 'development',
-    devtool: 'eval-source-map',
+    mode: "development",
+    devtool: "eval-source-map",
     entry: {
-        index: './src/presentation/index'
+        index: "./src/presentation/index"
     },
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: '[name].js'
+        path: path.join(__dirname, "dist"),
+        filename: "[name].js"
     },
     resolve: {
-        extensions: ['.js', '.ts', '.tsx']
+        extensions: [".js", ".ts", ".tsx"]
     },
     module: {
         rules: [
@@ -23,15 +23,15 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: [
-                    { loader: 'style-loader' }, // creates style nodes from JS strings
-                    { loader: 'css-loader' }, // translates CSS into CommonJS
-                    { loader: 'less-loader' }, // compiles Less to CSS
+                    { loader: "style-loader" }, // creates style nodes from JS strings
+                    { loader: "css-loader" }, // translates CSS into CommonJS
+                    { loader: "less-loader" }, // compiles Less to CSS
                 ]
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
                 use: [
-                    { loader: 'file-loader' }
+                    { loader: "file-loader" }
                 ]
             }
         ]
@@ -39,7 +39,7 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                { from: 'index.html' }
+                { from: "index.html" }
             ]
         })
     ],
@@ -47,4 +47,4 @@ module.exports = {
         hot: true,
         port: 3000
     }
-};
+}

@@ -6,7 +6,7 @@ import { GuessView } from "./GuessView"
 import { ContainerAwareProps } from "../Container"
 
 @observer
-export class GuessesView extends React.Component<ContainerAwareProps, {}> {
+export class GuessesView extends React.Component<ContainerAwareProps> {
     private model: GuessesViewModel
 
     constructor(props: ContainerAwareProps) {
@@ -14,7 +14,7 @@ export class GuessesView extends React.Component<ContainerAwareProps, {}> {
         this.model = new GuessesViewModel(props.container.gameManager)
     }
 
-    render() {
+    render(): JSX.Element {
         const guessViews = this.model.guesses.map((guessAndKey, index) => {
             return <GuessView guess={guessAndKey[0]} guessNumber={index} key={guessAndKey[1]} container={this.props.container} />
         })

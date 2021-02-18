@@ -1,7 +1,7 @@
-import { computed, makeObservable } from "mobx";
-import { ArrayHelper } from "../../logic/ArrayHelper";
-import { GameManager } from "../../logic/GameManager";
-import { Guess } from "../../logic/Guess";
+import { computed, makeObservable } from "mobx"
+import { ArrayHelper } from "../../logic/ArrayHelper"
+import { GameManager } from "../../logic/GameManager"
+import { Guess } from "../../logic/Guess"
 
 export class GuessesViewModel {
     private gameManager: GameManager

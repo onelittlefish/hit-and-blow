@@ -7,7 +7,7 @@ import { SourcePegsDiv } from "./SourcePegsView.styles"
 import { SourcePegsViewModel } from "./SourcePegsViewModel"
 
 @observer
-export class SourcePegsView extends React.Component<ContainerAwareProps, {}> {
+export class SourcePegsView extends React.Component<ContainerAwareProps> {
     private model: SourcePegsViewModel
 
     constructor(props: ContainerAwareProps) {
@@ -15,7 +15,7 @@ export class SourcePegsView extends React.Component<ContainerAwareProps, {}> {
         this.model = new SourcePegsViewModel(props.container.guessUIManager)
     }
 
-    render() {
+    render(): JSX.Element {
         const pegs = this.model.pegs.map((color, index) => {
             return <ColorPegView color={color} index={index} key={color}
                 isDraggable={true} isDroppable={false}

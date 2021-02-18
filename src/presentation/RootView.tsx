@@ -1,16 +1,16 @@
-import * as React from 'react'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { ThemeProvider } from 'styled-components'
-import { ContainerAwareProps } from './Container'
-import { GuessesView } from './guesses/GuessesView'
-import { RootDiv } from './RootView.styles'
-import { SourcePegsView } from './pegs/SourcePegsView'
-import { NewGameView } from './header/NewGameView'
-import { Theme } from './common/Theme.styles'
+import * as React from "react"
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
+import { ThemeProvider } from "styled-components"
+import { ContainerAwareProps } from "./Container"
+import { GuessesView } from "./guesses/GuessesView"
+import { RootDiv } from "./RootView.styles"
+import { SourcePegsView } from "./pegs/SourcePegsView"
+import { NewGameView } from "./header/NewGameView"
+import { Theme } from "./common/Theme.styles"
 
-export class RootView extends React.Component<ContainerAwareProps, {}> {
-    render() {
+export class RootView extends React.Component<ContainerAwareProps> {
+    render(): JSX.Element {
         return (
             <ThemeProvider theme={Theme}>
                 <RootDiv>

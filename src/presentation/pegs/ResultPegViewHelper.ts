@@ -1,5 +1,5 @@
-import { Result } from "../guesses/Result";
-import { PegColors } from "../common/Theme.styles";
+import { Result } from "../guesses/Result"
+import { PegColors } from "../common/Theme.styles"
 
 export class ResultPegViewHelper {
     static getBackgroundColor(result: Result): string {

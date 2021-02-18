@@ -23,21 +23,21 @@ export class GameManager {
         this.newGame()
     }
 
-    newGame() {
+    newGame(): void {
         const allColors = ColorHelper.allColors()
         this.target = ArrayHelper.times(this.size, () => sample(allColors))
         this.targetFound = false
         this.guesses = []
     }
 
-    submitGuess(guess: Color[]) {
-        var guessCopy = [...guess]
-        var targetCopy = [...this.target]
+    submitGuess(guess: Color[]): void {
+        const guessCopy = [...guess]
+        const targetCopy = [...this.target]
 
         // Count the hits and add the misses to separate arrays
-        var hits = 0
-        var guessMisses: Color[] = []
-        var targetMisses: Color[] = []
+        let hits = 0
+        const guessMisses: Color[] = []
+        const targetMisses: Color[] = []
         while (guessCopy.length > 0 && targetCopy.length > 0) {
             if (guessCopy[0] == targetCopy[0]) {
                 hits += 1
@@ -53,7 +53,7 @@ export class GameManager {
         targetMisses.concat(targetCopy)
 
         // Count the blows
-        var blows = 0
+        let blows = 0
         guessMisses.forEach(color => {
             const blowIndex = targetMisses.indexOf(color)
             if (blowIndex != -1) {

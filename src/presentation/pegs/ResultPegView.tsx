@@ -9,12 +9,12 @@ interface Props {
 }
 
 @observer
-export class ResultPegView extends React.Component<Props, {}> {
+export class ResultPegView extends React.Component<Props> {
     constructor(props: Props) {
         super(props)
     }
 
-    render() {
+    render(): JSX.Element {
         const backgroundColor = ResultPegViewHelper.getBackgroundColor(this.props.result)
         const foregroundColor = ResultPegViewHelper.getForegroundColor(this.props.result)
         const label = ResultPegViewHelper.getLabel(this.props.result)

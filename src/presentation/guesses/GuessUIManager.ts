@@ -1,8 +1,8 @@
-import { action, autorun, computed, makeObservable, observable } from "mobx";
-import { ArrayHelper } from "../../logic/ArrayHelper";
-import { Color } from "../../logic/Color";
-import { GameManager } from "../../logic/GameManager";
-import { every, findIndex } from "lodash";
+import { action, autorun, computed, makeObservable, observable } from "mobx"
+import { ArrayHelper } from "../../logic/ArrayHelper"
+import { Color } from "../../logic/Color"
+import { GameManager } from "../../logic/GameManager"
+import { every, findIndex } from "lodash"
 
 export class GuessUIManager {
     private gameManager: GameManager
@@ -41,7 +41,7 @@ export class GuessUIManager {
         return every(this.currentGuess, (guess) => { return guess != null })
     }
 
-    selectPosition(position: number) {
+    selectPosition(position: number): void {
         if (this.selectedPosition == position) {
             this.selectedPosition = null
         } else {
@@ -49,29 +49,29 @@ export class GuessUIManager {
         }
     }
 
-    selectColor(color: Color) {
+    selectColor(color: Color): void {
         if (this.selectedPosition != null) {
             this.selectColorForPosition(color, this.selectedPosition)
         }
     }
 
-    selectColorForPosition(color: Color, position: number) {
+    selectColorForPosition(color: Color, position: number): void {
         this.currentGuess[position] = color
         this._selectNextOpenPosition()
     }
 
-    removeColorForPosition(position: number) {
+    removeColorForPosition(position: number): void {
         this.currentGuess[position] = null
     }
 
-    submitGuess() {
+    submitGuess(): void {
         if (this.canSubmitCurrentGuess) {
             this.gameManager.submitGuess(this.currentGuess)
             this._resetState()
         }
     }
 
-    _resetState() {
+    _resetState(): void {
         this.currentGuess = ArrayHelper.times(this.gameManager.size, (): Color | null => { return null })
         if (this.selectedPosition != null) {
             this.selectedPosition = 0
@@ -80,7 +80,7 @@ export class GuessUIManager {
         }
     }
 
-    _selectNextOpenPosition() {
+    _selectNextOpenPosition(): void {
         if (this.selectedPosition != null) {
             const nextOpenPosition = findIndex(this.currentGuess, (guess) => {
                 return guess == null

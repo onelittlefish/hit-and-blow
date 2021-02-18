@@ -1,7 +1,8 @@
-import { Color, ColorHelper } from "../../logic/Color";
-import { GuessUIManager } from "../guesses/GuessUIManager";
+import { Color, ColorHelper } from "../../logic/Color"
+import { GuessUIManager } from "../guesses/GuessUIManager"
+import { ColorPegViewDelegate } from "./ColorPegView"
 
-export class SourcePegsViewModel {
+export class SourcePegsViewModel implements ColorPegViewDelegate {
     readonly pegs: Color[]
     private guessUIManager: GuessUIManager
     
@@ -10,15 +11,16 @@ export class SourcePegsViewModel {
         this.pegs = ColorHelper.allColors()
     }
 
-    onDrop(color: Color) {
+    onDrop(_color: Color, _id: number): void {
         // Do nothing
     }
 
-    onClick(color: Color) {
+    onClick(color: Color, _id: number): void {
         this.guessUIManager.selectColor(color)
     }
 
-    onDelete(id: number) {
+    onDelete(_id: number): void {
         // Do nothing
     }
+
 }

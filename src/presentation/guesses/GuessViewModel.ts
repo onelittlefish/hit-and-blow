@@ -1,13 +1,14 @@
-import { action, computed, makeObservable, observable } from "mobx";
-import { GameManager } from "../../logic/GameManager";
-import { Guess } from "../../logic/Guess";
-import { Color } from "../../logic/Color";
-import { ArrayHelper } from "../../logic/ArrayHelper";
-import { Result } from "./Result";
-import { isEqual } from "lodash";
-import { GuessUIManager } from "./GuessUIManager";
+import { action, computed, makeObservable } from "mobx"
+import { GameManager } from "../../logic/GameManager"
+import { Guess } from "../../logic/Guess"
+import { Color } from "../../logic/Color"
+import { ArrayHelper } from "../../logic/ArrayHelper"
+import { Result } from "./Result"
+import { isEqual } from "lodash"
+import { GuessUIManager } from "./GuessUIManager"
+import { ColorPegViewDelegate } from "../pegs/ColorPegView"
 
-export class GuessViewModel {
+export class GuessViewModel implements ColorPegViewDelegate {
     readonly guess: (Guess | null)
     private guessNumber: number
     private gameManager: GameManager
@@ -79,25 +80,25 @@ export class GuessViewModel {
         return this.guess != null && isEqual(this.guess.guess, this.gameManager.target)
     }
 
-    submitGuess() {
+    submitGuess(): void {
         if (this.isEditable) {
             this.guessUIManager.submitGuess()
         }
     }
 
-    onDrop(color: Color, id: number) {
+    onDrop(color: Color, id: number): void {
         if (this.isEditable) {
             this.guessUIManager.selectColorForPosition(color, id)
         }
     }
 
-    onClick(color: Color, id: number) {
+    onClick(_color: Color, id: number): void {
         if (this.isEditable) {
             this.guessUIManager.selectPosition(id)
         }
     }
 
-    onDelete(id: number) {
+    onDelete(id: number): void {
         if (this.isEditable) {
             this.guessUIManager.removeColorForPosition(id)
         }
