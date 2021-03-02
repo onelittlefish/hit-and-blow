@@ -27,3 +27,4 @@ npm run start
 - [MobX](https://mobx.js.org) for state management
 - [React](https://reactjs.org/)
 - [Styled Components](https://styled-components.com) for CSS
+- [Jest](https://jestjs.io/)

@@ -6,8 +6,8 @@ import { every, findIndex } from "lodash"
 
 export class GuessUIManager {
     private gameManager: GameManager
-    currentGuess: (Color | null)[]
-    selectedPosition: number | null
+    currentGuess: (Color | null)[] = []
+    selectedPosition: number | null = null
 
     constructor(gameManger: GameManager) {
         this.gameManager = gameManger
@@ -75,18 +75,25 @@ export class GuessUIManager {
         this.currentGuess = ArrayHelper.times(this.gameManager.size, (): Color | null => { return null })
         if (this.selectedPosition != null) {
             this.selectedPosition = 0
-        } else {
-            this.selectedPosition = null
         }
     }
 
     _selectNextOpenPosition(): void {
-        if (this.selectedPosition != null) {
-            const nextOpenPosition = findIndex(this.currentGuess, (guess) => {
+        if (this.selectedPosition == null) {
+            return
+        }
+        
+        const nextOpenPosition = findIndex(this.currentGuess, (guess) => {
+            return guess == null
+        }, this.selectedPosition)
+        if (nextOpenPosition != -1) {
+            this.selectedPosition = nextOpenPosition
+        } else {
+            const firstOpenPosition = findIndex(this.currentGuess, (guess) => {
                 return guess == null
             })
-            if (nextOpenPosition != -1) {
-                this.selectedPosition = nextOpenPosition
+            if (firstOpenPosition != -1) {
+                this.selectedPosition = firstOpenPosition
             }
         }
     }

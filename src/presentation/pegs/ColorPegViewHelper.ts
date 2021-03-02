@@ -2,7 +2,7 @@ import { Color } from "../../logic/Color"
 import { PegColors, Theme } from "../common/Theme.styles"
 
 export class ColorPegViewHelper {
-    static getBackgroundColor(color: Color, isSelected: boolean, draggedColor: Color | null): string {
+    static getBackgroundColor(color: Color | null, isSelected: boolean, draggedColor: Color | null): string {
         if (draggedColor != null) {
             return PegColors.getBackgroundColor(draggedColor)
         } else if (isSelected && color == null) {
@@ -12,7 +12,7 @@ export class ColorPegViewHelper {
         }
     }
 
-    static getForegroundColor(color: Color): string {
+    static getForegroundColor(color: Color | null): string {
         return PegColors.getForegroundColor(color)
     }
 

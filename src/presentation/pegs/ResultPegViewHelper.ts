@@ -2,15 +2,15 @@ import { Result } from "../guesses/Result"
 import { PegColors } from "../common/Theme.styles"
 
 export class ResultPegViewHelper {
-    static getBackgroundColor(result: Result): string {
+    static getBackgroundColor(result: Result | null): string {
         return PegColors.getBackgroundColorForResult(result)
     }
 
-    static getForegroundColor(result: Result): string {
+    static getForegroundColor(result: Result | null): string {
         return PegColors.getForegroundColorForResult(result)
     }
 
-    static getLabel(result: Result): string {
+    static getLabel(result: Result | null): string {
         return result || ""
     }
 }
